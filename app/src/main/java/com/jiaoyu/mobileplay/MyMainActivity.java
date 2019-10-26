@@ -27,20 +27,14 @@ import java.util.ArrayList;
 public class MyMainActivity extends FragmentActivity {
 
 
-    private FrameLayout fl_main_content;
-
-    private RadioGroup rg_bottom_tag;
-
-    private ArrayList<BasePage> basePages;
-
-    private int position;
-
+    private RadioGroup rg_bottom_tag;//底部栏
+    private ArrayList<BasePage> basePages;//子页面集合
+    private int position;//对应的索引
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_main);
-        fl_main_content = findViewById(R.id.lf_main_content);
         rg_bottom_tag = findViewById(R.id.rb_bottom_tag);
         basePages=new ArrayList<>();
         //添加页面到数组中
@@ -54,7 +48,6 @@ public class MyMainActivity extends FragmentActivity {
     }
 
     private class MyOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
-
         @Override//切换到对应的视图
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch(checkedId){
@@ -71,7 +64,6 @@ public class MyMainActivity extends FragmentActivity {
                     position=3;
                     break;
             }
-
             setFragment();
         }
 
@@ -81,19 +73,19 @@ public class MyMainActivity extends FragmentActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             //2.开启事务
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-
             //3.替换
             transaction.replace(R.id.lf_main_content, new ReplaceFragment(getBasePage()));
             //4提交事务
             transaction.commit();
         }
 
+
         //根据位置得到对应的页面
         public BasePage getBasePage() {
             BasePage basePage = basePages.get(position);//从数组中得到数据，并设置初使化数据
-            if(basePage!=null){
+            if(basePage!=null&&!basePage.isInitData){
                 basePage.initData();//初使化数据
+                basePage.isInitData=true;
             }
             return basePage;
         };
@@ -101,29 +93,19 @@ public class MyMainActivity extends FragmentActivity {
     }
 
     public static class ReplaceFragment extends Fragment {
-
         private BasePage currPager;
-
         public ReplaceFragment(BasePage pager) {
             this.currPager=pager;
         }
-
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
         }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             return currPager.rootview;
         }
-
     }
-
-
-
-
 
 }

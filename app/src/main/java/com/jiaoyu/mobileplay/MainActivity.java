@@ -22,10 +22,7 @@ public class MainActivity extends AppCompatActivity {
             }
         },2000);
     }
-
-
     private boolean isStartMain = false;
-
     //打开主页面
     private void startMainActivity() {
         if(!isStartMain){
@@ -35,10 +32,8 @@ public class MainActivity extends AppCompatActivity {
             isStartMain=true;//只启动一次
         }
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.e("MyTag","当前线程是："+event.getAction());
         startMainActivity();
         return super.onTouchEvent(event);
     }

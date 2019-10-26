@@ -1,4 +1,4 @@
-package com.atguigu.mobileplayer2.utils;
+package com.jiaoyu.mobileplay.util;
 
 import android.content.Context;
 import android.net.TrafficStats;
@@ -51,13 +51,13 @@ public class Utils {
      * @return
      */
     public boolean isNetUri(String uri) {
-        boolean reault = false;
+        boolean result = false;
         if (uri != null) {
             if (uri.toLowerCase().startsWith("http") || uri.toLowerCase().startsWith("rtsp") || uri.toLowerCase().startsWith("mms")) {
-                reault = true;
+                result = true;
             }
         }
-        return reault;
+        return result;
     }
 
 
@@ -69,10 +69,11 @@ public class Utils {
      */
     public String getNetSpeed(Context context) {
         String netSpeed = "0 kb/s";
-        long nowTotalRxBytes = TrafficStats.getUidRxBytes(context.getApplicationInfo().uid)==TrafficStats.UNSUPPORTED ? 0 :(TrafficStats.getTotalRxBytes()/1024);//转为KB;
-        long nowTimeStamp = System.currentTimeMillis();
+        long nowTotalRxBytes = TrafficStats.getUidRxBytes(context.getApplicationInfo().uid)==TrafficStats.UNSUPPORTED ? 0 :(TrafficStats.getTotalRxBytes()/1024);//当前总数据量转为KB;
+        long nowTimeStamp = System.currentTimeMillis();//当前的时间
+        //（当前的网络总量-前一秒的网络总量）*1000/所用的时间
         long speed = ((nowTotalRxBytes - lastTotalRxBytes) * 1000 / (nowTimeStamp - lastTimeStamp));//毫秒转换
-
+        //更新上一次的时间和网络总量
         lastTimeStamp = nowTimeStamp;
         lastTotalRxBytes = nowTotalRxBytes;
         netSpeed  = String.valueOf(speed) + " kb/s";

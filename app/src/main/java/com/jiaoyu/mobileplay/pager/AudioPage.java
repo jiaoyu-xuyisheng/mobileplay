@@ -11,13 +11,11 @@ import com.jiaoyu.mobileplay.base.BasePage;
 
 public  class AudioPage extends BasePage {
 
-    private TextView textView;
-
+    private TextView textView;//定义一个view用于展示
     public AudioPage(Context context) {
         super(context);
     }
-
-    @Override
+    @Override//设置view
     public View initView() {
         textView = new TextView(context);
         textView.setTextSize(25);
@@ -25,10 +23,9 @@ public  class AudioPage extends BasePage {
         textView.setTextColor(Color.RED);
         return textView;
     }
-    @Override
+    @Override//加载数据
     public void initData(){
         super.initData();
         textView.setText("this is AudioPage");
     }
-
 }
